@@ -8,7 +8,7 @@ int main(void) {
     neural_network *net_ptr = &net;
     initialize_network(net_ptr,2,2,1);
     
-    train_network(net_ptr,4,1000,0.5,0.1);
+    train_network(net_ptr,4,10000,0.5,0.1);
     test_network(net_ptr,4);
     
     
