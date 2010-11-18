@@ -1,7 +1,7 @@
 DESCRIPTION
 
 This is a *very, very* simple back propagating neural network, inspired 
-basically entirely by the pretty widely used bpnn.py file by Neil Schemenauer
+almost entirely by the widely used bpnn.py file by Neil Schemenauer
 (found here: http://arctrix.com/nas/). His Python library is remarkably simple, 
 combining real, valuable utility with readability and accessibility. I got
 great enjoyment out of tinkering with it so I essentially decided to write a
