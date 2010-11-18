@@ -2,49 +2,10 @@
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
-
-
-typedef struct {
-    int in_n, out_n, hid_n;
-    double *in_a, *out_a, *hid_a;
-    double **in_w, **out_w;
-    double **in_c, **out_c;
-} neural_network;
+#include "backprop.h"
 
 
 double patterns[4][2][2] = { {{0,0},{0}} , {{0,1},{1}} , {{1,0},{1}} , {{1,1},{0}} };
-
-
-void init_rand();
-double rand_base();
-double rand_double(double min, double max);
-
-double activate(double value);
-double derivative(double value);
-double **matrix(int x, int y, double **m);
-
-void initialize_network(neural_network *net, int in, int hidden, int out);
-void update_network(neural_network *net, double inputs[]);
-void test_network(neural_network *net, int sets);
-
-void train_network(neural_network *net, int sets, \
-int iterations, double learn_rate, double momentum);
-
-double back_propagate(neural_network *net, double learn_rate, \
-double momentum, double goals[]);
-
-
-int main() {
-    neural_network net; 
-    neural_network *net_ptr = &net;
-    initialize_network(net_ptr,2,2,1);
-    
-    train_network(net_ptr,4,1000,0.5,0.1);
-    test_network(net_ptr,4);
-    
-    
-    return 0;
-}
 
 
 /* ****************
@@ -98,8 +59,7 @@ double **matrix(int x, int y, double **m) {
  * ***************** */
 
 void initialize_network(neural_network *net, int in, int hidden, int out) {
-    //neural_network *net;
-    
+   
     //number of nodes per layer
     net->in_n = in + 1;
     net->out_n = out;
