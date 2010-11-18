@@ -1,0 +1,97 @@
+DESCRIPTION
+
+This is a *very, very* simple back propagating neural network, inspired 
+basically entirely by the pretty widely used bpnn.py file by Neil Schemenauer
+(found here: http://arctrix.com/nas/). His Python library is remarkably simple, 
+combining real, valuable utility with readability and accessibility. I got
+great enjoyment out of tinkering with it so I essentially decided to write a
+slightly modified port in C. This can be used to perform some elementary 
+supervised learning tasks on its own but its value probably lays in being the
+foundation for a larger library or piece of work.
+
+The activation and derivative calculations use the same formulas as bpnn.py 
+(with hyperbolic tangent as the choice for the sigmoid and (1 - y^2) for the 
+output derivative). The back propagation is done by first propagating the error
+terms for the output and hidden layers and then updating the weight matrices for
+each output node and each input node.
+
+INSTRUCTIONS
+
+For use as a library:
+
+Call init_rand to seed the pseudorandom generator.
+
+Then create a neural_network structure to work with and initialize it with the
+correct amount of nodes per layer (with the input and output layers having node
+counts which equal the training set) and a pointer to the struct. The pointer
+will be passed into all functions which deal directly with the network. 
+
+Then provide the training set, such as the globally defined "patterns" (see the
+BUGS section), and call train_network. Parameters include the amount of sets in 
+the training data (ie. 4 in the sample set "patterns"), the learing and momentum
+rates, the previously mentioned net pointers and the amount of iterations to 
+perform. Here is where the benefit of C shines through as initial testing shows
+that the network can perform 1,000,000+ iterations quickly (with a significant
+portion of the runtime devoted to superfluously printing every 100th error 
+term). After training to your heart's content, either provide a new data set for
+testing (or use the same data set if you are so inclined for some reason) and
+call test_network.
+
+Compilation:
+
+Snatch up the source and the header (and the test file if you want to play 
+around with it) and run:
+
+$ gcc -Wall test.c backprop.c -o [executable name]
+$ ./[executable name]
+
+If one is experimenting with the network, you can find the sample training set
+declared in backprop.h and defined in backprop.c: just change the data set as
+desired and change the dimensions of the set accordingly. You will also need
+to change the amount of sets in your data in the calls to train_network and 
+test_network in test.c. You can also find the training parameters in test.c, 
+currently set to 10,000 iterations, a learning rate of 0.5 and a momentum factor
+of 0.1.
+
+EXAMPLE
+
+As was shown in the demo of bpnn.py, the network can be trained to perform XOR 
+logic. With a training set of:
+
+double patterns[4][2][2] = { {{0,0},{0}} , {{0,1},{1}} , {{1,0},{1}} , {{1,1},{0}} };
+
+and learing and momentum rates of 0.5 and 0.1, respectively, 1,000 iterations of
+training will yield this upon testing the same set:
+
+error 0.68834
+error 0.00435
+error 0.00146
+error 0.00083
+error 0.00057
+error 0.00043
+error 0.00034
+error 0.00028
+error 0.00024
+error 0.00021
+0 0 -> 0.00000000 
+0 1 -> 0.99133570 
+1 0 -> 0.99093383 
+1 1 -> 0.00953049 
+
+More iterations will provide more accurate data, while increasing the learning  
+and momentum rates will tend to amplify gradients in the weight matrices from 
+iteration to iteration.
+
+BUGS
+
+Currently, one has to utilize the globally declared and defined "patterns" 
+variable to manipulate and maintain the data sets to be fed to the network. This
+is entirely because I have not yet found a clean, efficient way to handle the
+passing of what are essentially three dimensional arrays into the train_network
+and test_network functions, nor have I found a similarly effective way to
+create the pointer to pointers to pointers which would be ideal.
+
+Of course this is not a good way to do this.
+
+
+
