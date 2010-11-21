@@ -21,9 +21,9 @@ For use as a library:
 
 Call init_rand to seed the pseudorandom generator.
 
-Then create a neural_network structure to work with and initialize it with the
+Then create a neural_network structure to work with, initializing it with the
 correct amount of nodes per layer (with the input and output layers having node
-counts which equal the training set) and a pointer to the struct. The pointer
+counts which equal the training set), and a pointer to the struct. The pointer
 will be passed into all functions which deal directly with the network. 
 
 Then provide the training set, such as the globally defined "patterns" (see the
